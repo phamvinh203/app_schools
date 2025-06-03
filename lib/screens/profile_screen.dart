@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/user_bloc.dart';
 import 'login_screen.dart';
+import 'student/profile/student_info_screen.dart';
+import 'student/profile/student_academic_screen.dart';
+import 'student/profile/student_settings_screen.dart';
+import 'student/profile/student_support_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -82,32 +84,46 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
-
-              // Menu Items
+              const SizedBox(height: 24), // Menu Items
               _buildMenuSection(context, 'Tài khoản', [
-                _buildMenuItem(
-                  Icons.person_outline,
-                  'Thông tin cá nhân',
-                  () {},
-                ),
-                _buildMenuItem(
-                  Icons.school_outlined,
-                  'Thông tin học tập',
-                  () {},
-                ),
-                _buildMenuItem(Icons.lock_outline, 'Đổi mật khẩu', () {}),
+                _buildMenuItem(Icons.person_outline, 'Thông tin cá nhân', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StudentInfoScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.school_outlined, 'Thông tin học tập', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StudentAcademicScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.lock_outline, 'Đổi mật khẩu', () {
+                  _showChangePasswordDialog(context);
+                }),
               ]),
 
               const SizedBox(height: 16),
 
               _buildMenuSection(context, 'Cài đặt', [
-                _buildMenuItem(
-                  Icons.notifications_outlined,
-                  'Thông báo',
-                  () {},
-                ),
-                _buildMenuItem(Icons.language_outlined, 'Ngôn ngữ', () {}),
+                _buildMenuItem(Icons.settings_outlined, 'Cài đặt', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StudentSettingsScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.notifications_outlined, 'Thông báo', () {
+                  _showNotificationSettings(context);
+                }),
+                _buildMenuItem(Icons.language_outlined, 'Ngôn ngữ', () {
+                  _showLanguageSettings(context);
+                }),
                 _buildMenuItem(
                   Icons.dark_mode_outlined,
                   'Chế độ tối',
@@ -123,9 +139,20 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               _buildMenuSection(context, 'Hỗ trợ', [
-                _buildMenuItem(Icons.help_outline, 'Trợ giúp', () {}),
-                _buildMenuItem(Icons.info_outline, 'Về ứng dụng', () {}),
-                _buildMenuItem(Icons.feedback_outlined, 'Phản hồi', () {}),
+                _buildMenuItem(Icons.help_outline, 'Hỗ trợ', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StudentSupportScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.info_outline, 'Về ứng dụng', () {
+                  _showAppInfo(context);
+                }),
+                _buildMenuItem(Icons.feedback_outlined, 'Phản hồi', () {
+                  _showFeedbackDialog(context);
+                }),
               ]),
 
               const SizedBox(height: 24), // Logout Button
@@ -264,6 +291,206 @@ class ProfileScreen extends StatelessWidget {
           trailing ??
           Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
       onTap: onTap,
+    );
+  }
+
+  void _showChangePasswordDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Đổi mật khẩu'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Mật khẩu hiện tại',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Mật khẩu mới',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Xác nhận mật khẩu mới',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Đổi mật khẩu thành công!')),
+                  );
+                },
+                child: const Text('Xác nhận'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _showNotificationSettings(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Cài đặt thông báo'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SwitchListTile(
+                  title: const Text('Thông báo bài tập'),
+                  value: true,
+                  onChanged: (value) {},
+                ),
+                SwitchListTile(
+                  title: const Text('Thông báo điểm số'),
+                  value: true,
+                  onChanged: (value) {},
+                ),
+                SwitchListTile(
+                  title: const Text('Thông báo lịch học'),
+                  value: false,
+                  onChanged: (value) {},
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Đóng'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _showLanguageSettings(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Chọn ngôn ngữ'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RadioListTile<String>(
+                  title: const Text('Tiếng Việt'),
+                  value: 'vi',
+                  groupValue: 'vi',
+                  onChanged: (value) => Navigator.pop(context),
+                ),
+                RadioListTile<String>(
+                  title: const Text('English'),
+                  value: 'en',
+                  groupValue: 'vi',
+                  onChanged: (value) => Navigator.pop(context),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Đóng'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _showAppInfo(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Về ứng dụng'),
+            content: const Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('School Management App'),
+                SizedBox(height: 8),
+                Text('Phiên bản: 1.0.0'),
+                SizedBox(height: 8),
+                Text('Được phát triển bởi đội ngũ DATN'),
+                SizedBox(height: 16),
+                Text(
+                  'Ứng dụng quản lý trường học toàn diện, hỗ trợ học sinh, giáo viên và phụ huynh trong việc theo dõi quá trình học tập.',
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Đóng'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _showFeedbackDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Gửi phản hồi'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Tiêu đề',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const TextField(
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    labelText: 'Nội dung phản hồi',
+                    border: OutlineInputBorder(),
+                    alignLabelWithHint: true,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã gửi phản hồi thành công!'),
+                    ),
+                  );
+                },
+                child: const Text('Gửi'),
+              ),
+            ],
+          ),
     );
   }
 }
