@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'create_assignment_screen.dart';
 
 class TeacherAssignmentScreen extends StatelessWidget {
   const TeacherAssignmentScreen({super.key});
@@ -107,9 +108,15 @@ class TeacherAssignmentScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+      ),      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreateAssignmentScreen(),
+            ),
+          );
+        },
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add),
