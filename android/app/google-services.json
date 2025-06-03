@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "502774464499",
+    "project_id": "datn-ecbd4",
+    "storage_bucket": "datn-ecbd4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502774464499:android:82d486aa8611213fa75c86",
+        "android_client_info": {
+          "package_name": "com.example.app_schools"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCANfLj9FFj1nTLn7G5nOIDhMWK1f_6VMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
