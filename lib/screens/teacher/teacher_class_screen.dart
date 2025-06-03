@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'class_detail_screen.dart';
+import 'teacher_schedule_screen.dart';
 
 class TeacherClassScreen extends StatelessWidget {
   const TeacherClassScreen({super.key});
@@ -79,7 +80,14 @@ class TeacherClassScreen extends StatelessWidget {
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TeacherScheduleScreen(),
+                        ),
+                      );
+                    },
                     icon: const Icon(Icons.calendar_today, size: 16),
                     label: const Text('Lịch dạy'),
                   ),
