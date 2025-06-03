@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/user_bloc.dart';
-import 'login_screen.dart';
+import '../../screens/login_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class TeacherProfileScreen extends StatelessWidget {
+  const TeacherProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.blue[400]!, Colors.blue[600]!],
+                    colors: [Colors.green[400]!, Colors.green[600]!],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -34,12 +32,12 @@ class ProfileScreen extends StatelessWidget {
                       child: Icon(
                         Icons.person,
                         size: 60,
-                        color: Colors.blue[600],
+                        color: Colors.green[600],
                       ),
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Nguyễn Văn An',
+                      'Nguyễn Thị Bình',
                       style: Theme.of(
                         context,
                       ).textTheme.headlineSmall?.copyWith(
@@ -49,7 +47,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Lớp 12A1 • Học sinh',
+                      'Giáo viên Toán học • THPT ABC',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.white.withOpacity(0.9),
                       ),
@@ -58,8 +56,14 @@ class ProfileScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        Expanded(child: _buildStatItem('3', 'Lớp\nphụ trách')),
+                        Container(
+                          width: 1,
+                          height: 40,
+                          color: Colors.white.withOpacity(0.3),
+                        ),
                         Expanded(
-                          child: _buildStatItem('15', 'Bài tập\nhoàn thành'),
+                          child: _buildStatItem('105', 'Học sinh\ntổng cộng'),
                         ),
                         Container(
                           width: 1,
@@ -67,15 +71,7 @@ class ProfileScreen extends StatelessWidget {
                           color: Colors.white.withOpacity(0.3),
                         ),
                         Expanded(
-                          child: _buildStatItem('6', 'Môn học\nđang theo'),
-                        ),
-                        Container(
-                          width: 1,
-                          height: 40,
-                          color: Colors.white.withOpacity(0.3),
-                        ),
-                        Expanded(
-                          child: _buildStatItem('8.5', 'Điểm TB\nhọc kỳ'),
+                          child: _buildStatItem('15', 'Năm\nkinh nghiệm'),
                         ),
                       ],
                     ),
@@ -85,18 +81,28 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Menu Items
-              _buildMenuSection(context, 'Tài khoản', [
-                _buildMenuItem(
-                  Icons.person_outline,
-                  'Thông tin cá nhân',
-                  () {},
-                ),
+              _buildMenuSection(context, 'Thông tin cá nhân', [
+                _buildMenuItem(Icons.person_outline, 'Hồ sơ giáo viên', () {}),
                 _buildMenuItem(
                   Icons.school_outlined,
-                  'Thông tin học tập',
+                  'Thông tin giảng dạy',
                   () {},
                 ),
-                _buildMenuItem(Icons.lock_outline, 'Đổi mật khẩu', () {}),
+                _buildMenuItem(Icons.schedule_outlined, 'Lịch dạy', () {}),
+                _buildMenuItem(
+                  Icons.grade_outlined,
+                  'Báo cáo thành tích',
+                  () {},
+                ),
+              ]),
+
+              const SizedBox(height: 16),
+
+              _buildMenuSection(context, 'Quản lý lớp học', [
+                _buildMenuItem(Icons.assignment_outlined, 'Tạo bài tập', () {}),
+                _buildMenuItem(Icons.fact_check_outlined, 'Điểm danh', () {}),
+                _buildMenuItem(Icons.assessment_outlined, 'Chấm điểm', () {}),
+                _buildMenuItem(Icons.analytics_outlined, 'Thống kê lớp', () {}),
               ]),
 
               const SizedBox(height: 16),
@@ -107,6 +113,7 @@ class ProfileScreen extends StatelessWidget {
                   'Thông báo',
                   () {},
                 ),
+                _buildMenuItem(Icons.security_outlined, 'Bảo mật', () {}),
                 _buildMenuItem(Icons.language_outlined, 'Ngôn ngữ', () {}),
                 _buildMenuItem(
                   Icons.dark_mode_outlined,
@@ -115,7 +122,7 @@ class ProfileScreen extends StatelessWidget {
                   trailing: Switch(
                     value: false,
                     onChanged: (value) {},
-                    activeColor: Colors.blue,
+                    activeColor: Colors.green,
                   ),
                 ),
               ]),
@@ -123,12 +130,18 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               _buildMenuSection(context, 'Hỗ trợ', [
-                _buildMenuItem(Icons.help_outline, 'Trợ giúp', () {}),
+                _buildMenuItem(Icons.help_outline, 'Hướng dẫn sử dụng', () {}),
+                _buildMenuItem(
+                  Icons.contact_support_outlined,
+                  'Liên hệ hỗ trợ',
+                  () {},
+                ),
                 _buildMenuItem(Icons.info_outline, 'Về ứng dụng', () {}),
                 _buildMenuItem(Icons.feedback_outlined, 'Phản hồi', () {}),
               ]),
 
-              const SizedBox(height: 24), // Logout Button
+              const SizedBox(height: 24),
+              // Logout Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -254,10 +267,10 @@ class ProfileScreen extends StatelessWidget {
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.1),
+          color: Colors.green.withOpacity(0.1),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(icon, color: Colors.blue[600], size: 20),
+        child: Icon(icon, color: Colors.green[600], size: 20),
       ),
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
       trailing:
