@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'student_class_detail_screen.dart';
+import 'student/student_schedule_screen.dart';
 
 class ClassScreen extends StatelessWidget {
   const ClassScreen({super.key});
@@ -66,12 +67,29 @@ class ClassScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
 
-              // Subjects section
-              Text(
-                'Môn học',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              // Subjects section header with schedule button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Môn học',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const StudentScheduleScreen(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.calendar_today, size: 16),
+                    label: const Text('Lịch học'),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
               Expanded(
