@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'class_detail_screen.dart';
 
 class TeacherClassScreen extends StatelessWidget {
   const TeacherClassScreen({super.key});
@@ -265,10 +266,16 @@ class TeacherClassScreen extends StatelessWidget {
                   label: const Text('Tạo bài tập'),
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
+              const SizedBox(width: 12),              Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ClassDetailScreen(classData: classData),
+                      ),
+                    );
+                  },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: classData['color'],
                     side: BorderSide(color: classData['color']),
