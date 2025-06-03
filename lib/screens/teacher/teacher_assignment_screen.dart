@@ -108,7 +108,8 @@ class TeacherAssignmentScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),      floatingActionButton: FloatingActionButton.extended(
+      ),
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
             context,

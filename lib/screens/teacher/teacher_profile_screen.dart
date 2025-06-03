@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../screens/login_screen.dart';
+import 'profile/teacher_info_screen.dart';
+import 'profile/teacher_class_management_screen.dart';
+import 'profile/teacher_settings_screen.dart';
+import 'profile/teacher_support_screen.dart';
 
 class TeacherProfileScreen extends StatelessWidget {
   const TeacherProfileScreen({super.key});
@@ -78,15 +82,27 @@ class TeacherProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
-
-              // Menu Items
+              const SizedBox(height: 24), // Menu Items
               _buildMenuSection(context, 'Thông tin cá nhân', [
-                _buildMenuItem(Icons.person_outline, 'Hồ sơ giáo viên', () {}),
+                _buildMenuItem(Icons.person_outline, 'Hồ sơ giáo viên', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TeacherInfoScreen(),
+                    ),
+                  );
+                }),
                 _buildMenuItem(
                   Icons.school_outlined,
                   'Thông tin giảng dạy',
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TeacherInfoScreen(),
+                      ),
+                    );
+                  },
                 ),
                 _buildMenuItem(Icons.schedule_outlined, 'Lịch dạy', () {}),
                 _buildMenuItem(
@@ -99,26 +115,82 @@ class TeacherProfileScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               _buildMenuSection(context, 'Quản lý lớp học', [
-                _buildMenuItem(Icons.assignment_outlined, 'Tạo bài tập', () {}),
-                _buildMenuItem(Icons.fact_check_outlined, 'Điểm danh', () {}),
-                _buildMenuItem(Icons.assessment_outlined, 'Chấm điểm', () {}),
-                _buildMenuItem(Icons.analytics_outlined, 'Thống kê lớp', () {}),
+                _buildMenuItem(Icons.assignment_outlined, 'Tạo bài tập', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => const TeacherClassManagementScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.fact_check_outlined, 'Điểm danh', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => const TeacherClassManagementScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.assessment_outlined, 'Chấm điểm', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => const TeacherClassManagementScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.analytics_outlined, 'Thống kê lớp', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => const TeacherClassManagementScreen(),
+                    ),
+                  );
+                }),
               ]),
 
               const SizedBox(height: 16),
 
               _buildMenuSection(context, 'Cài đặt', [
-                _buildMenuItem(
-                  Icons.notifications_outlined,
-                  'Thông báo',
-                  () {},
-                ),
-                _buildMenuItem(Icons.security_outlined, 'Bảo mật', () {}),
-                _buildMenuItem(Icons.language_outlined, 'Ngôn ngữ', () {}),
+                _buildMenuItem(Icons.notifications_outlined, 'Thông báo', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TeacherSettingsScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.security_outlined, 'Bảo mật', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TeacherSettingsScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.language_outlined, 'Ngôn ngữ', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TeacherSettingsScreen(),
+                    ),
+                  );
+                }),
                 _buildMenuItem(
                   Icons.dark_mode_outlined,
                   'Chế độ tối',
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TeacherSettingsScreen(),
+                      ),
+                    );
+                  },
                   trailing: Switch(
                     value: false,
                     onChanged: (value) {},
@@ -130,14 +202,42 @@ class TeacherProfileScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               _buildMenuSection(context, 'Hỗ trợ', [
-                _buildMenuItem(Icons.help_outline, 'Hướng dẫn sử dụng', () {}),
+                _buildMenuItem(Icons.help_outline, 'Hướng dẫn sử dụng', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TeacherSupportScreen(),
+                    ),
+                  );
+                }),
                 _buildMenuItem(
                   Icons.contact_support_outlined,
                   'Liên hệ hỗ trợ',
-                  () {},
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TeacherSupportScreen(),
+                      ),
+                    );
+                  },
                 ),
-                _buildMenuItem(Icons.info_outline, 'Về ứng dụng', () {}),
-                _buildMenuItem(Icons.feedback_outlined, 'Phản hồi', () {}),
+                _buildMenuItem(Icons.info_outline, 'Về ứng dụng', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TeacherSupportScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.feedback_outlined, 'Phản hồi', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TeacherSupportScreen(),
+                    ),
+                  );
+                }),
               ]),
 
               const SizedBox(height: 24),
