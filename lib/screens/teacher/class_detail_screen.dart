@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class ClassDetailScreen extends StatefulWidget {
   final Map<String, dynamic> classData;
 
-  const ClassDetailScreen({
-    super.key,
-    required this.classData,
-  });
+  const ClassDetailScreen({super.key, required this.classData});
 
   @override
   State<ClassDetailScreen> createState() => _ClassDetailScreenState();
@@ -242,12 +239,10 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
               const SizedBox(height: 4),
               Text(
                 'Chia sẻ tài liệu, slide, video bài giảng với học sinh',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.blue[600],
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.blue[600]),
                 textAlign: TextAlign.center,
-              ),            const SizedBox(height: 12),
+              ),
+              const SizedBox(height: 12),
               Row(
                 children: [
                   ElevatedButton.icon(
@@ -255,7 +250,10 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[600],
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
                     ),
                     icon: const Icon(Icons.add, size: 18),
                     label: const Text('Thêm tài liệu'),
@@ -266,7 +264,10 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[600],
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
                     ),
                     icon: const Icon(Icons.send, size: 18),
                     label: const Text('Đẩy tài liệu'),
@@ -367,10 +368,17 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
                           return ListTile(
                             leading: CircleAvatar(
                               backgroundColor: Colors.green[100],
-                              child: Icon(Icons.check, color: Colors.green[600]),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.green[600],
+                              ),
                             ),
-                            title: Text('Ngày ${DateTime.now().subtract(Duration(days: index)).day}/${DateTime.now().month}'),
-                            subtitle: Text('${widget.classData['present'] - index} / ${widget.classData['students']} có mặt'),
+                            title: Text(
+                              'Ngày ${DateTime.now().subtract(Duration(days: index)).day}/${DateTime.now().month}',
+                            ),
+                            subtitle: Text(
+                              '${widget.classData['present'] - index} / ${widget.classData['students']} có mặt',
+                            ),
                             trailing: TextButton(
                               onPressed: () {},
                               child: const Text('Xem chi tiết'),
@@ -404,40 +412,43 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
           ),
         ),
         title: Text(student['name']),
-        subtitle: Text('SBD: ${student['id']} • Điểm TB: ${student['avgGrade']}'),
+        subtitle: Text(
+          'SBD: ${student['id']} • Điểm TB: ${student['avgGrade']}',
+        ),
         trailing: PopupMenuButton(
-          itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: 'profile',
-              child: Row(
-                children: [
-                  Icon(Icons.person, size: 20),
-                  SizedBox(width: 8),
-                  Text('Hồ sơ'),
-                ],
-              ),
-            ),
-            const PopupMenuItem(
-              value: 'grades',
-              child: Row(
-                children: [
-                  Icon(Icons.grade, size: 20),
-                  SizedBox(width: 8),
-                  Text('Xem điểm'),
-                ],
-              ),
-            ),
-            const PopupMenuItem(
-              value: 'contact',
-              child: Row(
-                children: [
-                  Icon(Icons.phone, size: 20),
-                  SizedBox(width: 8),
-                  Text('Liên hệ PH'),
-                ],
-              ),
-            ),
-          ],
+          itemBuilder:
+              (context) => [
+                const PopupMenuItem(
+                  value: 'profile',
+                  child: Row(
+                    children: [
+                      Icon(Icons.person, size: 20),
+                      SizedBox(width: 8),
+                      Text('Hồ sơ'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'grades',
+                  child: Row(
+                    children: [
+                      Icon(Icons.grade, size: 20),
+                      SizedBox(width: 8),
+                      Text('Xem điểm'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'contact',
+                  child: Row(
+                    children: [
+                      Icon(Icons.phone, size: 20),
+                      SizedBox(width: 8),
+                      Text('Liên hệ PH'),
+                    ],
+                  ),
+                ),
+              ],
         ),
       ),
     );
@@ -510,68 +521,63 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
                 const SizedBox(width: 4),
                 Text(
                   document['uploadDate'],
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
                 const SizedBox(width: 16),
                 Icon(Icons.download, size: 12, color: Colors.grey[600]),
                 const SizedBox(width: 4),
                 Text(
                   '${document['downloads']} lượt tải',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
               ],
             ),
           ],
         ),
         trailing: PopupMenuButton(
-          itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: 'download',
-              child: Row(
-                children: [
-                  Icon(Icons.download, size: 20),
-                  SizedBox(width: 8),
-                  Text('Tải xuống'),
-                ],
-              ),
-            ),
-            const PopupMenuItem(
-              value: 'share',
-              child: Row(
-                children: [
-                  Icon(Icons.share, size: 20),
-                  SizedBox(width: 8),
-                  Text('Chia sẻ'),
-                ],
-              ),
-            ),
-            const PopupMenuItem(
-              value: 'edit',
-              child: Row(
-                children: [
-                  Icon(Icons.edit, size: 20),
-                  SizedBox(width: 8),
-                  Text('Chỉnh sửa'),
-                ],
-              ),
-            ),
-            const PopupMenuItem(
-              value: 'delete',
-              child: Row(
-                children: [
-                  Icon(Icons.delete, size: 20, color: Colors.red),
-                  SizedBox(width: 8),
-                  Text('Xóa', style: TextStyle(color: Colors.red)),
-                ],
-              ),
-            ),
-          ],
+          itemBuilder:
+              (context) => [
+                const PopupMenuItem(
+                  value: 'download',
+                  child: Row(
+                    children: [
+                      Icon(Icons.download, size: 20),
+                      SizedBox(width: 8),
+                      Text('Tải xuống'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'share',
+                  child: Row(
+                    children: [
+                      Icon(Icons.share, size: 20),
+                      SizedBox(width: 8),
+                      Text('Chia sẻ'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'edit',
+                  child: Row(
+                    children: [
+                      Icon(Icons.edit, size: 20),
+                      SizedBox(width: 8),
+                      Text('Chỉnh sửa'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete, size: 20, color: Colors.red),
+                      SizedBox(width: 8),
+                      Text('Xóa', style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                ),
+              ],
         ),
       ),
     );
@@ -588,7 +594,10 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: assignment['statusColor'].withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
@@ -605,20 +614,14 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
                 const Spacer(),
                 Text(
                   'Hạn: ${assignment['deadline']}',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
                 ),
               ],
             ),
             const SizedBox(height: 8),
             Text(
               assignment['title'],
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 4),
             Text(
@@ -635,10 +638,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
                   style: TextStyle(color: Colors.grey[600], fontSize: 12),
                 ),
                 const Spacer(),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Xem chi tiết'),
-                ),
+                TextButton(onPressed: () {}, child: const Text('Xem chi tiết')),
               ],
             ),
           ],
@@ -658,57 +658,64 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
   void _showQuickActions() {
     showModalBottomSheet(
       context: context,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Thao tác nhanh',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-              childAspectRatio: 1.5,
+      builder:
+          (context) => Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _buildQuickActionCard(
-                  'Điểm danh',
-                  Icons.fact_check,
-                  Colors.green,
-                  () => _showAttendanceDialog(),
+                Text(
+                  'Thao tác nhanh',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                _buildQuickActionCard(
-                  'Tạo bài tập',
-                  Icons.assignment,
-                  Colors.blue,
-                  () {},
-                ),                _buildQuickActionCard(
-                  'Đẩy tài liệu',
-                  Icons.send,
-                  Colors.green,
-                  () => _showPushDocumentDialog(),
-                ),
-                _buildQuickActionCard(
-                  'Gửi thông báo',
-                  Icons.notifications,
-                  Colors.purple,
-                  () {},
+                const SizedBox(height: 20),
+                GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 1.5,
+                  children: [
+                    _buildQuickActionCard(
+                      'Điểm danh',
+                      Icons.fact_check,
+                      Colors.green,
+                      () => _showAttendanceDialog(),
+                    ),
+                    _buildQuickActionCard(
+                      'Tạo bài tập',
+                      Icons.assignment,
+                      Colors.blue,
+                      () {},
+                    ),
+                    _buildQuickActionCard(
+                      'Đẩy tài liệu',
+                      Icons.send,
+                      Colors.green,
+                      () => _showPushDocumentDialog(),
+                    ),
+                    _buildQuickActionCard(
+                      'Gửi thông báo',
+                      Icons.notifications,
+                      Colors.purple,
+                      () {},
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
-  Widget _buildQuickActionCard(String title, IconData icon, Color color, VoidCallback onTap) {
+  Widget _buildQuickActionCard(
+    String title,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);
@@ -727,10 +734,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
             const SizedBox(height: 8),
             Text(
               title,
-              style: TextStyle(
-                color: color,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(color: color, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
           ],
@@ -742,165 +746,179 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
   void _showUploadDocumentDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Thêm tài liệu bài giảng'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Tên tài liệu',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Mô tả',
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: 3,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[300]!),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.cloud_upload, size: 40, color: Colors.grey[400]),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Chọn tệp để tải lên',
-                      style: TextStyle(color: Colors.grey[600]),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Thêm tài liệu bài giảng'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Tên tài liệu',
+                      border: OutlineInputBorder(),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'PDF, DOC, PPT, Video (Tối đa 50MB)',
-                      style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Mô tả',
+                      border: OutlineInputBorder(),
                     ),
-                  ],
+                    maxLines: 3,
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    width: double.infinity,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey[300]!),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.cloud_upload,
+                          size: 40,
+                          color: Colors.grey[400],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Chọn tệp để tải lên',
+                          style: TextStyle(color: Colors.grey[600]),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'PDF, DOC, PPT, Video (Tối đa 50MB)',
+                          style: TextStyle(
+                            color: Colors.grey[400],
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã tải lên tài liệu thành công!'),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: widget.classData['color'],
+                  foregroundColor: Colors.white,
                 ),
+                child: const Text('Tải lên'),
               ),
             ],
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Hủy'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Đã tải lên tài liệu thành công!')),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: widget.classData['color'],
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('Tải lên'),
-          ),
-        ],
-      ),
     );
   }
 
   void _showAttendanceDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Điểm danh lớp học'),
-        content: Container(
-          width: double.maxFinite,
-          height: 400,
-          child: ListView.builder(
-            itemCount: _getStudents().length,
-            itemBuilder: (context, index) {
-              final student = _getStudents()[index];
-              return CheckboxListTile(
-                title: Text(student['name']),
-                subtitle: Text('SBD: ${student['id']}'),
-                value: student['isPresent'] ?? true,
-                onChanged: (value) {
-                  setState(() {
-                    student['isPresent'] = value;
-                  });
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Điểm danh lớp học'),
+            content: Container(
+              width: double.maxFinite,
+              height: 400,
+              child: ListView.builder(
+                itemCount: _getStudents().length,
+                itemBuilder: (context, index) {
+                  final student = _getStudents()[index];
+                  return CheckboxListTile(
+                    title: Text(student['name']),
+                    subtitle: Text('SBD: ${student['id']}'),
+                    value: student['isPresent'] ?? true,
+                    onChanged: (value) {
+                      setState(() {
+                        student['isPresent'] = value;
+                      });
+                    },
+                    activeColor: widget.classData['color'],
+                  );
                 },
-                activeColor: widget.classData['color'],
-              );
-            },
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Hủy'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Đã lưu điểm danh thành công!')),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: widget.classData['color'],
-              foregroundColor: Colors.white,
+              ),
             ),
-            child: const Text('Lưu điểm danh'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã lưu điểm danh thành công!'),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: widget.classData['color'],
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Lưu điểm danh'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
   void _showClassMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: const Text('Chỉnh sửa thông tin lớp'),
-              onTap: () {
-                Navigator.pop(context);
-              },
+      builder:
+          (context) => Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.edit),
+                  title: const Text('Chỉnh sửa thông tin lớp'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.analytics),
+                  title: const Text('Báo cáo thống kê'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.share),
+                  title: const Text('Chia sẻ mã lớp'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.archive),
+                  title: const Text('Lưu trữ lớp'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              leading: const Icon(Icons.analytics),
-              title: const Text('Báo cáo thống kê'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.share),
-              title: const Text('Chia sẻ mã lớp'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.archive),
-              title: const Text('Lưu trữ lớp'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -946,6 +964,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
       },
     ];
   }
+
   List<Map<String, dynamic>> _getAssignments() {
     return [
       {
@@ -973,37 +992,279 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
 
     showDialog(
       context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setState) => AlertDialog(
-          title: Row(
-            children: [
-              Icon(Icons.send, color: widget.classData['color']),
-              const SizedBox(width: 8),
-              const Text('Đẩy tài liệu cho học sinh'),
-            ],
+      builder:
+          (context) => StatefulBuilder(
+            builder:
+                (context, setState) => AlertDialog(
+                  title: Row(
+                    children: [
+                      Icon(Icons.send, color: widget.classData['color']),
+                      const SizedBox(width: 8),
+                      const Text('Đẩy tài liệu cho học sinh'),
+                    ],
+                  ),
+                  content: SizedBox(
+                    width: double.maxFinite,
+                    height: 400,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.blue[50],
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.blue[200]!),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.info,
+                                color: Colors.blue[600],
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  'Chọn tài liệu để gửi thông báo cho tất cả học sinh trong lớp',
+                                  style: TextStyle(
+                                    color: Colors.blue[700],
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Chọn tài liệu:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: documents.length,
+                            itemBuilder: (context, index) {
+                              final document = documents[index];
+                              final isSelected = selectedDocuments.contains(
+                                document,
+                              );
+
+                              return Card(
+                                margin: const EdgeInsets.only(bottom: 8),
+                                child: CheckboxListTile(
+                                  value: isSelected,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value == true) {
+                                        selectedDocuments.add(document);
+                                      } else {
+                                        selectedDocuments.remove(document);
+                                      }
+                                    });
+                                  },
+                                  activeColor: widget.classData['color'],
+                                  title: Text(
+                                    document['name'],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        document['description'],
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            _getFileIcon(document['type']),
+                                            size: 14,
+                                            color: Colors.grey[600],
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            document['type'].toUpperCase(),
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey[600],
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Icon(
+                                            Icons.access_time,
+                                            size: 12,
+                                            color: Colors.grey[600],
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            document['uploadDate'],
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey[600],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  secondary: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: _getFileColor(
+                                        document['type'],
+                                      ).withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Icon(
+                                      _getFileIcon(document['type']),
+                                      color: _getFileColor(document['type']),
+                                      size: 24,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        if (selectedDocuments.isNotEmpty) ...[
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.green[50],
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.green[200]!),
+                            ),
+                            child: Text(
+                              'Đã chọn ${selectedDocuments.length} tài liệu',
+                              style: TextStyle(
+                                color: Colors.green[700],
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Hủy'),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed:
+                          selectedDocuments.isEmpty
+                              ? null
+                              : () {
+                                Navigator.pop(context);
+                                _showPushConfirmationDialog(selectedDocuments);
+                              },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: widget.classData['color'],
+                        foregroundColor: Colors.white,
+                      ),
+                      icon: const Icon(Icons.send, size: 18),
+                      label: const Text('Đẩy tài liệu'),
+                    ),
+                  ],
+                ),
           ),
-          content: SizedBox(
-            width: double.maxFinite,
-            height: 400,
-            child: Column(
+    );
+  }
+
+  void _showPushConfirmationDialog(
+    List<Map<String, dynamic>> selectedDocuments,
+  ) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Row(
+              children: [
+                Icon(
+                  Icons.notifications_active,
+                  color: widget.classData['color'],
+                ),
+                const SizedBox(width: 8),
+                const Text('Xác nhận đẩy tài liệu'),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  'Bạn sắp gửi thông báo về ${selectedDocuments.length} tài liệu mới cho tất cả ${widget.classData['students']} học sinh trong lớp:',
+                  style: const TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey[300]!),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ListView.builder(
+                    itemCount: selectedDocuments.length,
+                    itemBuilder: (context, index) {
+                      final doc = selectedDocuments[index];
+                      return ListTile(
+                        dense: true,
+                        leading: Icon(
+                          _getFileIcon(doc['type']),
+                          color: _getFileColor(doc['type']),
+                          size: 20,
+                        ),
+                        title: Text(
+                          doc['name'],
+                          style: const TextStyle(fontSize: 14),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          doc['type'].toUpperCase(),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 12),
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.blue[50],
+                    color: Colors.amber[50],
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.blue[200]!),
+                    border: Border.all(color: Colors.amber[200]!),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.info, color: Colors.blue[600], size: 20),
+                      Icon(
+                        Icons.warning_amber,
+                        color: Colors.amber[700],
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'Chọn tài liệu để gửi thông báo cho tất cả học sinh trong lớp',
+                          'Học sinh sẽ nhận thông báo push và có thể tải xuống tài liệu ngay lập tức.',
                           style: TextStyle(
-                            color: Colors.blue[700],
+                            color: Colors.amber[800],
                             fontSize: 13,
                           ),
                         ),
@@ -1011,241 +1272,27 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Chọn tài liệu:',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: documents.length,
-                    itemBuilder: (context, index) {
-                      final document = documents[index];
-                      final isSelected = selectedDocuments.contains(document);
-                      
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 8),
-                        child: CheckboxListTile(
-                          value: isSelected,
-                          onChanged: (value) {
-                            setState(() {
-                              if (value == true) {
-                                selectedDocuments.add(document);
-                              } else {
-                                selectedDocuments.remove(document);
-                              }
-                            });
-                          },
-                          activeColor: widget.classData['color'],
-                          title: Text(
-                            document['name'],
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                document['description'],
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 4),
-                              Row(
-                                children: [
-                                  Icon(
-                                    _getFileIcon(document['type']),
-                                    size: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    document['type'].toUpperCase(),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[600],
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Icon(Icons.access_time, size: 12, color: Colors.grey[600]),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    document['uploadDate'],
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[600],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          secondary: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: _getFileColor(document['type']).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Icon(
-                              _getFileIcon(document['type']),
-                              color: _getFileColor(document['type']),
-                              size: 24,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                if (selectedDocuments.isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.green[50],
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.green[200]!),
-                    ),
-                    child: Text(
-                      'Đã chọn ${selectedDocuments.length} tài liệu',
-                      style: TextStyle(
-                        color: Colors.green[700],
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
               ],
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Hủy'),
-            ),
-            ElevatedButton.icon(
-              onPressed: selectedDocuments.isEmpty
-                  ? null
-                  : () {
-                      Navigator.pop(context);
-                      _showPushConfirmationDialog(selectedDocuments);
-                    },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: widget.classData['color'],
-                foregroundColor: Colors.white,
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Quay lại'),
               ),
-              icon: const Icon(Icons.send, size: 18),
-              label: const Text('Đẩy tài liệu'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showPushConfirmationDialog(List<Map<String, dynamic>> selectedDocuments) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(Icons.notifications_active, color: widget.classData['color']),
-            const SizedBox(width: 8),
-            const Text('Xác nhận đẩy tài liệu'),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Bạn sắp gửi thông báo về ${selectedDocuments.length} tài liệu mới cho tất cả ${widget.classData['students']} học sinh trong lớp:',
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              height: 120,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[300]!),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: ListView.builder(
-                itemCount: selectedDocuments.length,
-                itemBuilder: (context, index) {
-                  final doc = selectedDocuments[index];
-                  return ListTile(
-                    dense: true,
-                    leading: Icon(
-                      _getFileIcon(doc['type']),
-                      color: _getFileColor(doc['type']),
-                      size: 20,
-                    ),
-                    title: Text(
-                      doc['name'],
-                      style: const TextStyle(fontSize: 14),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                      doc['type'].toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  );
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _sendPushNotification(selectedDocuments);
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: widget.classData['color'],
+                  foregroundColor: Colors.white,
+                ),
+                icon: const Icon(Icons.send, size: 18),
+                label: const Text('Gửi ngay'),
               ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.amber[50],
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.amber[200]!),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.warning_amber, color: Colors.amber[700], size: 20),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      'Học sinh sẽ nhận thông báo push và có thể tải xuống tài liệu ngay lập tức.',
-                      style: TextStyle(
-                        color: Colors.amber[800],
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Quay lại'),
+            ],
           ),
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pop(context);
-              _sendPushNotification(selectedDocuments);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: widget.classData['color'],
-              foregroundColor: Colors.white,
-            ),
-            icon: const Icon(Icons.send, size: 18),
-            label: const Text('Gửi ngay'),
-          ),
-        ],
-      ),
     );
   }
 
@@ -1280,144 +1327,153 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
   void _showPushResultDialog(List<Map<String, dynamic>> documents) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(Icons.analytics, color: widget.classData['color']),
-            const SizedBox(width: 8),
-            const Text('Kết quả gửi thông báo'),
-          ],
-        ),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.green[50],
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.green[200]!),
-                ),
-                child: Column(
-                  children: [
-                    Row(
+      builder:
+          (context) => AlertDialog(
+            title: Row(
+              children: [
+                Icon(Icons.analytics, color: widget.classData['color']),
+                const SizedBox(width: 8),
+                const Text('Kết quả gửi thông báo'),
+              ],
+            ),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.green[50],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.green[200]!),
+                    ),
+                    child: Column(
                       children: [
-                        Icon(Icons.check_circle, color: Colors.green[600], size: 24),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'Gửi thành công!',
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.check_circle,
+                              color: Colors.green[600],
+                              size: 24,
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Gửi thành công!',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  '${widget.classData['students']}',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green[700],
+                                  ),
+                                ),
+                                Text(
+                                  'Học sinh nhận được',
+                                  style: TextStyle(
+                                    color: Colors.green[600],
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  '${documents.length}',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue[700],
+                                  ),
+                                ),
+                                Text(
+                                  'Tài liệu được gửi',
+                                  style: TextStyle(
+                                    color: Colors.blue[600],
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tài liệu đã gửi:',
                           style: TextStyle(
-                            fontSize: 16,
                             fontWeight: FontWeight.bold,
+                            color: Colors.blue[800],
                           ),
                         ),
+                        const SizedBox(height: 8),
+                        ...documents
+                            .map(
+                              (doc) => Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      _getFileIcon(doc['type']),
+                                      size: 16,
+                                      color: _getFileColor(doc['type']),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        doc['name'],
+                                        style: const TextStyle(fontSize: 13),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                            .toList(),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              '${widget.classData['students']}',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green[700],
-                              ),
-                            ),
-                            Text(
-                              'Học sinh nhận được',
-                              style: TextStyle(
-                                color: Colors.green[600],
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              '${documents.length}',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue[700],
-                              ),
-                            ),
-                            Text(
-                              'Tài liệu được gửi',
-                              style: TextStyle(
-                                color: Colors.blue[600],
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(8),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: widget.classData['color'],
+                  foregroundColor: Colors.white,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Tài liệu đã gửi:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue[800],
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    ...documents.map((doc) => Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: Row(
-                        children: [
-                          Icon(
-                            _getFileIcon(doc['type']),
-                            size: 16,
-                            color: _getFileColor(doc['type']),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              doc['name'],
-                              style: const TextStyle(fontSize: 13),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )).toList(),
-                  ],
-                ),
+                child: const Text('Đóng'),
               ),
             ],
           ),
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: widget.classData['color'],
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('Đóng'),
-          ),
-        ],
-      ),
     );
   }
 

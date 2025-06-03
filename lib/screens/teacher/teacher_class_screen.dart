@@ -266,13 +266,16 @@ class TeacherClassScreen extends StatelessWidget {
                   label: const Text('Tạo bài tập'),
                 ),
               ),
-              const SizedBox(width: 12),              Expanded(
+              const SizedBox(width: 12),
+              Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ClassDetailScreen(classData: classData),
+                        builder:
+                            (context) =>
+                                ClassDetailScreen(classData: classData),
                       ),
                     );
                   },

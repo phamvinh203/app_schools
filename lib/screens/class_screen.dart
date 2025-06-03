@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'student_class_detail_screen.dart';
 
 class ClassScreen extends StatelessWidget {
   const ClassScreen({super.key});
@@ -121,73 +122,88 @@ class ClassScreen extends StatelessWidget {
   }
 
   Widget _buildSubjectCard(BuildContext context, Map<String, dynamic> subject) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder:
+                (context) => StudentClassDetailScreen(subjectData: subject),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: subject['color'].withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
             ),
-            child: Icon(subject['icon'], color: subject['color'], size: 24),
-          ),
-          const SizedBox(height: 8),
-          Flexible(
-            child: Text(
-              subject['name'],
-              style: Theme.of(
-                context,
-              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Flexible(
-            child: Text(
-              subject['teacher'],
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  '${subject['assignments']} bài tập',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: subject['color'],
-                    fontWeight: FontWeight.w600,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: subject['color'].withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
               ),
-              Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey[400]),
-            ],
-          ),
-        ],
+              child: Icon(subject['icon'], color: subject['color'], size: 24),
+            ),
+            const SizedBox(height: 8),
+            Flexible(
+              child: Text(
+                subject['name'],
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Flexible(
+              child: Text(
+                subject['teacher'],
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    '${subject['assignments']} bài tập',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: subject['color'],
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 14,
+                  color: Colors.grey[400],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
