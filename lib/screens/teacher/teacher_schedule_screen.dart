@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'teacher_advanced_schedule_management_screen.dart';
 
 class TeacherScheduleScreen extends StatefulWidget {
   const TeacherScheduleScreen({super.key});
@@ -28,10 +29,41 @@ class _TeacherScheduleScreenState extends State<TeacherScheduleScreen> {
             onPressed: () => _showCalendarView(context),
             icon: const Icon(Icons.calendar_month),
           ),
-          PopupMenuButton(
+          PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
+            onSelected: (value) => _handleMenuAction(value),
             itemBuilder:
                 (context) => [
+                  const PopupMenuItem(
+                    value: 'substitute',
+                    child: Row(
+                      children: [
+                        Icon(Icons.swap_horiz, size: 20),
+                        SizedBox(width: 8),
+                        Text('Yêu cầu thay thế'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'makeup',
+                    child: Row(
+                      children: [
+                        Icon(Icons.schedule, size: 20),
+                        SizedBox(width: 8),
+                        Text('Xếp lịch bù'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'google_calendar',
+                    child: Row(
+                      children: [
+                        Icon(Icons.sync, size: 20),
+                        SizedBox(width: 8),
+                        Text('Đồng bộ Google Calendar'),
+                      ],
+                    ),
+                  ),
                   const PopupMenuItem(
                     value: 'export',
                     child: Row(
@@ -49,6 +81,16 @@ class _TeacherScheduleScreenState extends State<TeacherScheduleScreen> {
                         Icon(Icons.print, size: 20),
                         SizedBox(width: 8),
                         Text('In lịch'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'advanced',
+                    child: Row(
+                      children: [
+                        Icon(Icons.settings, size: 20),
+                        SizedBox(width: 8),
+                        Text('Quản lý nâng cao'),
                       ],
                     ),
                   ),
@@ -733,5 +775,323 @@ class _TeacherScheduleScreenState extends State<TeacherScheduleScreen> {
             ],
           ),
     );
+  }
+
+  // Handle menu actions
+  void _handleMenuAction(String value) {
+    switch (value) {
+      case 'substitute':
+        _showSubstituteRequestDialog();
+        break;
+      case 'makeup':
+        _showMakeupScheduleDialog();
+        break;
+      case 'google_calendar':
+        _syncWithGoogleCalendar();
+        break;
+      case 'export':
+        _exportSchedule();
+        break;
+      case 'print':
+        _printSchedule();
+        break;
+      case 'advanced':
+        _showAdvancedScheduleManagement();
+        break;
+    }
+  }
+
+  // Show substitute teacher request dialog
+  void _showSubstituteRequestDialog() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Yêu cầu thay thế'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Lý do yêu cầu thay thế',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 3,
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'Ngày cần thay thế',
+                    border: OutlineInputBorder(),
+                  ),
+                  items:
+                      _getUpcomingDates().map((date) {
+                        return DropdownMenuItem(value: date, child: Text(date));
+                      }).toList(),
+                  onChanged: (value) {},
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'Tiết học',
+                    border: OutlineInputBorder(),
+                  ),
+                  items:
+                      List.generate(6, (index) => 'Tiết ${index + 1}').map((
+                        period,
+                      ) {
+                        return DropdownMenuItem(
+                          value: period,
+                          child: Text(period),
+                        );
+                      }).toList(),
+                  onChanged: (value) {},
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã gửi yêu cầu thay thế thành công!'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                },
+                child: const Text('Gửi yêu cầu'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  // Show makeup schedule dialog
+  void _showMakeupScheduleDialog() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Xếp lịch bù'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Lý do cần bù',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 2,
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'Ngày bù',
+                    border: OutlineInputBorder(),
+                  ),
+                  items:
+                      _getAvailableMakeupDates().map((date) {
+                        return DropdownMenuItem(value: date, child: Text(date));
+                      }).toList(),
+                  onChanged: (value) {},
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'Tiết học',
+                    border: OutlineInputBorder(),
+                  ),
+                  items:
+                      List.generate(6, (index) => 'Tiết ${index + 1}').map((
+                        period,
+                      ) {
+                        return DropdownMenuItem(
+                          value: period,
+                          child: Text(period),
+                        );
+                      }).toList(),
+                  onChanged: (value) {},
+                ),
+                const SizedBox(height: 16),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Phòng học',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã xếp lịch bù thành công!'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                },
+                child: const Text('Xác nhận'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  // Sync with Google Calendar
+  void _syncWithGoogleCalendar() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Đồng bộ Google Calendar'),
+            content: const Text(
+              'Bạn có muốn đồng bộ lịch dạy với Google Calendar không?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  // Simulate sync process
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder:
+                        (context) => const AlertDialog(
+                          content: Row(
+                            children: [
+                              CircularProgressIndicator(),
+                              SizedBox(width: 16),
+                              Text('Đang đồng bộ...'),
+                            ],
+                          ),
+                        ),
+                  );
+                  Future.delayed(const Duration(seconds: 2), () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Đồng bộ Google Calendar thành công!'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  });
+                },
+                child: const Text('Đồng bộ'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  // Export schedule
+  void _exportSchedule() {
+    showModalBottomSheet(
+      context: context,
+      builder:
+          (context) => Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Xuất lịch dạy',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  leading: const Icon(Icons.picture_as_pdf, color: Colors.red),
+                  title: const Text('Xuất file PDF'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Đã xuất file PDF thành công!'),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.table_chart, color: Colors.green),
+                  title: const Text('Xuất file Excel'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Đã xuất file Excel thành công!'),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.image, color: Colors.blue),
+                  title: const Text('Xuất hình ảnh'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Đã xuất hình ảnh thành công!'),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+    );
+  }
+
+  // Print schedule
+  void _printSchedule() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Đã gửi lệnh in lịch dạy!'),
+        backgroundColor: Colors.blue,
+      ),
+    );
+  }
+
+  // Show advanced schedule management
+  void _showAdvancedScheduleManagement() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const TeacherAdvancedScheduleManagementScreen(),
+      ),
+    );
+  }
+
+  // Helper methods for dropdown data
+  List<String> _getUpcomingDates() {
+    return [
+      'Thứ 2, 15/01/2024',
+      'Thứ 3, 16/01/2024',
+      'Thứ 4, 17/01/2024',
+      'Thứ 5, 18/01/2024',
+      'Thứ 6, 19/01/2024',
+    ];
+  }
+
+  List<String> _getAvailableMakeupDates() {
+    return [
+      'Thứ 7, 20/01/2024',
+      'Chủ nhật, 21/01/2024',
+      'Thứ 7, 27/01/2024',
+      'Chủ nhật, 28/01/2024',
+    ];
   }
 }
