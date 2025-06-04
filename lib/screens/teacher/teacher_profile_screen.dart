@@ -4,6 +4,7 @@ import 'profile/teacher_info_screen.dart';
 import 'profile/teacher_class_management_screen.dart';
 import 'profile/teacher_settings_screen.dart';
 import 'profile/teacher_support_screen.dart';
+import 'fee_management_screen.dart';
 
 class TeacherProfileScreen extends StatelessWidget {
   const TeacherProfileScreen({super.key});
@@ -148,6 +149,14 @@ class TeacherProfileScreen extends StatelessWidget {
                     MaterialPageRoute(
                       builder:
                           (context) => const TeacherClassManagementScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.payment, 'Quản lý học phí', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FeeManagementScreen(),
                     ),
                   );
                 }),

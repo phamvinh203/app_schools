@@ -4,6 +4,7 @@ import 'student/profile/student_info_screen.dart';
 import 'student/profile/student_academic_screen.dart';
 import 'student/profile/student_settings_screen.dart';
 import 'student/profile/student_support_screen.dart';
+import 'student/fee_management_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -84,7 +85,8 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 24), // Menu Items
+              const SizedBox(height: 24),
+              // Menu Items
               _buildMenuSection(context, 'Tài khoản', [
                 _buildMenuItem(Icons.person_outline, 'Thông tin cá nhân', () {
                   Navigator.push(
@@ -99,6 +101,14 @@ class ProfileScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const StudentAcademicScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.payment, 'Quản lý học phí', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StudentFeeManagementScreen(),
                     ),
                   );
                 }),
