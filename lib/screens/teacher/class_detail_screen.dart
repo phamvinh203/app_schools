@@ -833,7 +833,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
       builder:
           (context) => AlertDialog(
             title: const Text('Điểm danh lớp học'),
-            content: Container(
+            content: SizedBox(
               width: double.maxFinite,
               height: 400,
               child: ListView.builder(
@@ -1456,7 +1456,7 @@ class _ClassDetailScreenState extends State<ClassDetailScreen>
                                 ),
                               ),
                             )
-                            .toList(),
+                            ,
                       ],
                     ),
                   ),

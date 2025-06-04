@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'advanced_schedule_management_screen.dart';
 
 class StudentScheduleScreen extends StatefulWidget {
   const StudentScheduleScreen({super.key});
@@ -28,17 +29,69 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
             onPressed: () => _showCalendarView(context),
             icon: const Icon(Icons.calendar_month),
           ),
-          PopupMenuButton(
+          PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
+            onSelected: (value) {
+              switch (value) {
+                case 'makeup':
+                  _showMakeupRequestDialog();
+                  break;
+                case 'leave':
+                  _showLeaveRequestDialog();
+                  break;
+                case 'sync':
+                  _syncWithGoogleCalendar();
+                  break;
+                case 'export':
+                  _exportSchedule();
+                  break;
+                case 'reminder':
+                  _showReminderSettings();
+                  break;
+                case 'advanced':
+                  _showAdvancedScheduleManagement();
+                  break;
+              }
+            },
             itemBuilder:
                 (context) => [
+                  const PopupMenuItem(
+                    value: 'makeup',
+                    child: Row(
+                      children: [
+                        Icon(Icons.schedule, size: 20, color: Colors.blue),
+                        SizedBox(width: 8),
+                        Text('Đặt lịch học bù'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'leave',
+                    child: Row(
+                      children: [
+                        Icon(Icons.sick, size: 20, color: Colors.orange),
+                        SizedBox(width: 8),
+                        Text('Xin nghỉ học'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'sync',
+                    child: Row(
+                      children: [
+                        Icon(Icons.sync, size: 20, color: Colors.green),
+                        SizedBox(width: 8),
+                        Text('Đồng bộ lịch'),
+                      ],
+                    ),
+                  ),
                   const PopupMenuItem(
                     value: 'export',
                     child: Row(
                       children: [
-                        Icon(Icons.download, size: 20),
+                        Icon(Icons.download, size: 20, color: Colors.purple),
                         SizedBox(width: 8),
-                        Text('Xuất lịch'),
+                        Text('Xuất lịch học'),
                       ],
                     ),
                   ),
@@ -46,9 +99,20 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
                     value: 'reminder',
                     child: Row(
                       children: [
-                        Icon(Icons.notifications, size: 20),
+                        Icon(Icons.notifications, size: 20, color: Colors.red),
                         SizedBox(width: 8),
-                        Text('Nhắc nhở'),
+                        Text('Cài đặt nhắc nhở'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuDivider(),
+                  const PopupMenuItem(
+                    value: 'advanced',
+                    child: Row(
+                      children: [
+                        Icon(Icons.settings, size: 20, color: Colors.indigo),
+                        SizedBox(width: 8),
+                        Text('Quản lý nâng cao'),
                       ],
                     ),
                   ),
@@ -732,6 +796,403 @@ class _StudentScheduleScreenState extends State<StudentScheduleScreen> {
               ),
             ],
           ),
+    );
+  }
+
+  // Advanced Schedule Management Methods
+
+  void _showMakeupRequestDialog() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Đặt lịch học bù'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Chọn lớp cần học bù:'),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'Môn học',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: const [
+                    DropdownMenuItem(value: 'math', child: Text('Toán học')),
+                    DropdownMenuItem(value: 'physics', child: Text('Vật lý')),
+                    DropdownMenuItem(
+                      value: 'chemistry',
+                      child: Text('Hóa học'),
+                    ),
+                  ],
+                  onChanged: (value) {},
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Ngày nghỉ gốc',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.calendar_today),
+                  ),
+                  readOnly: true,
+                  onTap: () async {
+                    await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now().subtract(
+                        const Duration(days: 30),
+                      ),
+                      lastDate: DateTime.now(),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Ngày học bù đề xuất',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.calendar_today),
+                  ),
+                  readOnly: true,
+                  onTap: () async {
+                    await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now().add(const Duration(days: 1)),
+                      firstDate: DateTime.now().add(const Duration(days: 1)),
+                      lastDate: DateTime.now().add(const Duration(days: 60)),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    labelText: 'Lý do (tùy chọn)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã gửi yêu cầu học bù'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                },
+                child: const Text('Gửi yêu cầu'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _showLeaveRequestDialog() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Xin nghỉ học'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'Loại nghỉ',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: const [
+                    DropdownMenuItem(value: 'sick', child: Text('Nghỉ ốm')),
+                    DropdownMenuItem(
+                      value: 'personal',
+                      child: Text('Nghỉ phép'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'family',
+                      child: Text('Việc gia đình'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'emergency',
+                      child: Text('Khẩn cấp'),
+                    ),
+                  ],
+                  onChanged: (value) {},
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Từ ngày',
+                          border: OutlineInputBorder(),
+                          suffixIcon: Icon(Icons.calendar_today),
+                        ),
+                        readOnly: true,
+                        onTap: () async {
+                          await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(
+                              const Duration(days: 365),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: 'Đến ngày',
+                          border: OutlineInputBorder(),
+                          suffixIcon: Icon(Icons.calendar_today),
+                        ),
+                        readOnly: true,
+                        onTap: () async {
+                          final date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now().add(
+                              const Duration(days: 1),
+                            ),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime.now().add(
+                              const Duration(days: 365),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    labelText: 'Lý do nghỉ học *',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                CheckboxListTile(
+                  title: const Text('Yêu cầu học bù'),
+                  subtitle: const Text('Tôi muốn học bù những tiết nghỉ này'),
+                  value: false,
+                  onChanged: (value) {},
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã gửi đơn xin nghỉ học'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                },
+                child: const Text('Gửi đơn'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _syncWithGoogleCalendar() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Đồng bộ với Google Calendar'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.sync, size: 64, color: Colors.blue),
+                const SizedBox(height: 16),
+                const Text(
+                  'Đồng bộ lịch học với Google Calendar để nhận thông báo tự động',
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                CheckboxListTile(
+                  title: const Text('Lịch học trường'),
+                  value: true,
+                  onChanged: (value) {},
+                ),
+                CheckboxListTile(
+                  title: const Text('Lịch gia sư'),
+                  value: true,
+                  onChanged: (value) {},
+                ),
+                CheckboxListTile(
+                  title: const Text('Deadline bài tập'),
+                  value: false,
+                  onChanged: (value) {},
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đang đồng bộ với Google Calendar...'),
+                      backgroundColor: Colors.blue,
+                    ),
+                  );
+                },
+                child: const Text('Đồng bộ'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _exportSchedule() {
+    showModalBottomSheet(
+      context: context,
+      builder:
+          (context) => Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Xuất lịch học',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  leading: const Icon(Icons.picture_as_pdf, color: Colors.red),
+                  title: const Text('Xuất file PDF'),
+                  subtitle: const Text('Lịch học tuần này'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Đang tạo file PDF...')),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.table_chart, color: Colors.green),
+                  title: const Text('Xuất file Excel'),
+                  subtitle: const Text('Lịch học cả tháng'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Đang tạo file Excel...')),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.calendar_today, color: Colors.blue),
+                  title: const Text('Xuất file ICS'),
+                  subtitle: const Text('Import vào ứng dụng lịch khác'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Đang tạo file ICS...')),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+    );
+  }
+
+  void _showReminderSettings() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Cài đặt nhắc nhở'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SwitchListTile(
+                  title: const Text('Nhắc nhở trước tiết học'),
+                  subtitle: const Text('15 phút trước khi bắt đầu'),
+                  value: true,
+                  onChanged: (value) {},
+                ),
+                SwitchListTile(
+                  title: const Text('Nhắc nhở deadline bài tập'),
+                  subtitle: const Text('1 ngày trước hạn nộp'),
+                  value: true,
+                  onChanged: (value) {},
+                ),
+                SwitchListTile(
+                  title: const Text('Nhắc nhở học phí'),
+                  subtitle: const Text('Lớp gia sư sắp đến hạn thanh toán'),
+                  value: false,
+                  onChanged: (value) {},
+                ),
+                const SizedBox(height: 16),
+                const Text('Âm thanh thông báo:'),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  value: 'default',
+                  items: const [
+                    DropdownMenuItem(value: 'default', child: Text('Mặc định')),
+                    DropdownMenuItem(value: 'bell', child: Text('Chuông')),
+                    DropdownMenuItem(value: 'chime', child: Text('Chime')),
+                    DropdownMenuItem(value: 'silent', child: Text('Im lặng')),
+                  ],
+                  onChanged: (value) {},
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Hủy'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã lưu cài đặt nhắc nhở'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                },
+                child: const Text('Lưu'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _showAdvancedScheduleManagement() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AdvancedScheduleManagementScreen(),
+      ),
     );
   }
 }
