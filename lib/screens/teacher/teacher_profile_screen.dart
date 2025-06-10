@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../screens/login_screen.dart';
+import '../../screens/theme_settings_screen.dart';
 import 'profile/teacher_info_screen.dart';
 import 'profile/teacher_class_management_screen.dart';
 import 'profile/teacher_settings_screen.dart';
@@ -16,14 +19,16 @@ class TeacherProfileScreen extends StatelessWidget {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            children: [
-              // Profile Header
+            children: [              // Profile Header
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.green[400]!, Colors.green[600]!],
+                    colors: [
+                      Theme.of(context).colorScheme.secondary,
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.8),
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -37,7 +42,7 @@ class TeacherProfileScreen extends StatelessWidget {
                       child: Icon(
                         Icons.person,
                         size: 60,
-                        color: Colors.green[600],
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -162,9 +167,23 @@ class TeacherProfileScreen extends StatelessWidget {
                 }),
               ]),
 
-              const SizedBox(height: 16),
-
-              _buildMenuSection(context, 'Cài đặt', [
+              const SizedBox(height: 16),              _buildMenuSection(context, 'Cài đặt', [
+                _buildMenuItem(Icons.settings_outlined, 'Cài đặt', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TeacherSettingsScreen(),
+                    ),
+                  );
+                }),
+                _buildMenuItem(Icons.palette_outlined, 'Giao diện', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ThemeSettingsScreen(),
+                    ),
+                  );
+                }),
                 _buildMenuItem(Icons.notifications_outlined, 'Thông báo', () {
                   Navigator.push(
                     context,
@@ -189,22 +208,21 @@ class TeacherProfileScreen extends StatelessWidget {
                     ),
                   );
                 }),
-                _buildMenuItem(
-                  Icons.dark_mode_outlined,
-                  'Chế độ tối',
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TeacherSettingsScreen(),
+                Consumer<ThemeProvider>(
+                  builder: (context, themeProvider, child) {
+                    return _buildMenuItem(
+                      themeProvider.isDarkMode 
+                        ? Icons.light_mode_outlined 
+                        : Icons.dark_mode_outlined,
+                      'Chế độ tối',
+                      () {},
+                      trailing: Switch(
+                        value: themeProvider.isDarkMode,
+                        onChanged: (value) => themeProvider.toggleTheme(),
+                        activeColor: Theme.of(context).colorScheme.secondary,
                       ),
                     );
                   },
-                  trailing: Switch(
-                    value: false,
-                    onChanged: (value) {},
-                    activeColor: Colors.green,
-                  ),
                 ),
               ]),
 
@@ -328,12 +346,12 @@ class TeacherProfileScreen extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildMenuSection(
     BuildContext context,
     String title,
     List<Widget> items,
   ) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -341,19 +359,19 @@ class TeacherProfileScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 4, bottom: 8),
           child: Text(
             title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.grey[700],
+              color: theme.colorScheme.onBackground.withOpacity(0.8),
             ),
           ),
         ),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
+                color: theme.colorScheme.shadow.withOpacity(0.1),
                 spreadRadius: 1,
                 blurRadius: 4,
                 offset: const Offset(0, 2),
@@ -365,27 +383,37 @@ class TeacherProfileScreen extends StatelessWidget {
       ],
     );
   }
-
   Widget _buildMenuItem(
     IconData icon,
     String title,
     VoidCallback onTap, {
     Widget? trailing,
   }) {
-    return ListTile(
-      leading: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.green.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Icon(icon, color: Colors.green[600], size: 20),
-      ),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
-      trailing:
-          trailing ??
-          Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey[400]),
-      onTap: onTap,
+    return Builder(
+      builder: (context) {
+        final theme = Theme.of(context);
+        return ListTile(
+          leading: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.secondary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: theme.colorScheme.secondary, size: 20),
+          ),
+          title: Text(
+            title, 
+            style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+          ),
+          trailing: trailing ??
+              Icon(
+                Icons.arrow_forward_ios, 
+                size: 16, 
+                color: theme.colorScheme.onSurface.withOpacity(0.6),
+              ),
+          onTap: onTap,
+        );
+      },
     );
   }
 }
